@@ -9,24 +9,23 @@ var cookieParser = require('cookie-parser');
 // });
 
 router.get('/', function(req, res, next) {
-  scope = 'rs2854464%20basic%20names';
+  scope = 'rs41362547%20basic%20names%20ancestry';
   if (req.signedCookies.access_token) {
-        var names, names_by_id = {}, genotypes;
+        var basic_info = {};
         var base_uri = 'https://api.23andme.com/1';
         var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
-        request.get({ url: base_uri + '/names/', headers: headers, json: true }, function (e, r, body) {
+        request.get({ url: base_uri + '/demo/names/', headers: headers, json: true }, function (e, r, body) {
             if(r.statusCode != 200) {
                 res.clearCookie('access_token');
                 res.redirect('/');
             } else {
-                names = body;
-                request.get({ url: base_uri + '/demo/user', headers: headers, json: true}, function (e, r, body) {
-                    console.log(body);
-                    console.log(names);
-                    genotypes = body;
+                basic_info.first_name = body.first_name;
+                basic_info.last_name = body.last_name;
+                basic_info.profile_id = body.profiles[0].id;
+                request.get({ url: base_uri + '/demo/ancestry/'+basic_info.profile_id, headers: headers, json: true}, function (e, r, body) {
+                    console.log("body", body.ancestry);
                     res.render('result', {
-                        names: names,
-                        genotypes: genotypes
+                        basic_info: basic_info
                     });
                 });
             }
@@ -44,7 +43,7 @@ router.get('/', function(req, res, next) {
     }
 });
 router.get('/receive_code/', function(req, res, next) {
-  scope = 'rs2854464%20basic%20names';
+  scope = 'rs41362547%20basic%20names%20ancestry';
   if (!req.query.code) {
       res.render('error', {
           client_id: process.env.CLIENT_ID,
