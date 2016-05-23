@@ -14,30 +14,31 @@
   </ul>
 </header>
 
-<div id="tabs" class="c-tabs no-js">
-  <div class="c-tabs-nav">
-    <a href="#" class="c-tabs-nav__link is-active"></a>
-    <a href="#" class="c-tabs-nav__link"></a>
-  </div>
-  <div class="c-tab is-active">
-    <div class="c-tab__content"></div>
-  </div>
-  <div class="c-tab">
-    <div class="c-tab__content"></div>
-  </div>
-</div>
-
 <div class="main">
-  <p>
-    {{basic_info.first_name}}
-    {{basic_info.last_name}}
-  </p>
-  <p>
-    {{#each ancestry}}
-    <h3>{{this.label}}</h3>
+  <div class="tabnav ancestry tabactive">
+    <a href="/"><h2>Ancestry</h2></a>
+  </div>
+  <div class="tabnav physical">
+    <a href="/physical"><h2>Physical</h2></a>
+  </div>
+  <div class="tabnav mental">
+    <a href="/mental"><h2>Mental</h2></a>
+  </div>
+  <div class="tabnav intentions">
+    <a href="/intentions"><h2>Intentions</h2></a>
+  </div>
+  <div class="tab ancestry">
     <p>
-      {{this.proportion}}
+      {{basic_info.first_name}}
+      {{basic_info.last_name}}
     </p>
-    {{/each}}
-  </p>
+    <p>
+      {{#each ancestry}}
+      <h3>{{this.label}}</h3>
+      <p>
+        {{this.proportion}}
+      </p>
+      {{/each}}
+    </p>
+  </div>
 </div>

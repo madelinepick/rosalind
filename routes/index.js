@@ -4,9 +4,15 @@ var request = require('request');
 var cookieParser = require('cookie-parser');
 
 /* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Express' });
-// });
+router.get('/mental', function(req, res, next) {
+  res.render('mental')
+});
+router.get('/physical', function(req, res, next) {
+  res.render('physical')
+});
+router.get('/intentions', function(req, res, next) {
+  res.render('intentions')
+});
 
 router.get('/', function(req, res, next) {
   scope = 'rs41362547%20basic%20names%20ancestry';
@@ -29,7 +35,7 @@ router.get('/', function(req, res, next) {
                   } else {
                     ancestry = body.ancestry.sub_populations;
                     request.get({ url: base_uri + '/demo/ancestry/'+basic_info.profile_id, headers: headers, json: true}, function (e, r, body) {
-                      res.render('result', {
+                      res.render('ancestry', {
                           ancestry: ancestry,
                           basic_info: basic_info
                       });
