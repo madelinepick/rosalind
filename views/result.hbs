@@ -1,7 +1,43 @@
-<h1>Results</h1>
-<p>
-  {{basic_info.first_name}}
-  {{basic_info.last_name}}
-</p>
-<p>
-</p>
+<header>
+  <svg class='logo' width="481px" height="126px" viewBox="480 10 481 126" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <text id="Rosalind" stroke="none" fill="none" font-family="Inconsolata-Regular, Inconsolata" font-size="120" font-weight="normal">
+          <tspan x="480" y="113" fill="#FFC565">Ro</tspan>
+          <tspan x="600" y="113" fill="#D6F388">sa</tspan>
+          <tspan x="720" y="113" fill="#ABE9AC">li</tspan>
+          <tspan x="840" y="113" fill="#72D6E9">nd</tspan>
+      </text>
+  </svg>
+  <ul>
+    <li><a href="#">HOME</a></li>
+    <li><a href="#">SETTINGS</a></li>
+    <li><a href="#">LOGOUT</a></li>
+  </ul>
+</header>
+
+<div id="tabs" class="c-tabs no-js">
+  <div class="c-tabs-nav">
+    <a href="#" class="c-tabs-nav__link is-active"></a>
+    <a href="#" class="c-tabs-nav__link"></a>
+  </div>
+  <div class="c-tab is-active">
+    <div class="c-tab__content"></div>
+  </div>
+  <div class="c-tab">
+    <div class="c-tab__content"></div>
+  </div>
+</div>
+
+<div class="main">
+  <p>
+    {{basic_info.first_name}}
+    {{basic_info.last_name}}
+  </p>
+  <p>
+    {{#each ancestry}}
+    <h3>{{this.label}}</h3>
+    <p>
+      {{this.proportion}}
+    </p>
+    {{/each}}
+  </p>
+</div>

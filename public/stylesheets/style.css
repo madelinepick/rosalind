@@ -1,8 +1,122 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 0px;
+  margin: 0px;
+  font-family: 'Lato', sans-serif;
+}
+h2 {
+  font-family: 'Inconsolata', sans-serif;
+}
+header {
+ height: 150px;
+ width: 100%;
+ border-bottom: 2px solid #BBBBBB;
+ background-color: rgba(255, 255, 255, 0.8);
+ position: fixed;
+ top:0px;
+ margin:auto;
+ z-index:100000;
+
+}
+header > button {
+  padding: 10px 15px;
+  background-color:#F65B77;
+  border: none;
+  position: absolute;
+  top: 50px;
+  right: 70px;
+  display: inline;
+  height: 50px;
+}
+header > button > a {
+  color: white;
+  font-family: "Lato", sans-serif;
+  text-transform: uppercase;
+  display: inline-block;
+  font-size: 18px;
+  vertical-align: middle;
+  font-weight: 300;
+}
+header > button > img {
+  width: 20px;
+  vertical-align: middle;
+  padding-right: 5px;
+}
+header > ul {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+}
+header > ul > li {
+  list-style: none;
+  display: inline;
+  margin-left: 10px
+}
+a {
+  text-decoration: none;
+  color: #BBBBBB;
+}
+.logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 12px;
+}
+.main {
+  margin-top: 200px;
+}
+/*tabs styling*/
+.c-tabs-nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-a {
-  color: #00B7FF;
+.c-tabs-nav__link {
+  flex: 1;
+  margin-right: 4px;
+  padding: 12px;
+  color: #fff;
+  background-color: #b3b3b3;
+  text-align: center;
+  transition: color 0.3s;
+}
+
+.c-tabs-nav__link:last-child {
+  margin-right: 0;
+}
+
+.c-tabs-nav__link:hover {
+  color: #6d6d6d;
+}
+
+.c-tabs-nav__link.is-active {
+  color: #dc446e;
+  background-color: #e7e7e7;
+}
+
+.c-tabs-nav__link i,
+.c-tabs-nav__link span {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.c-tabs-nav__link i {
+  font-size: 18px;
+}
+
+.c-tabs-nav__link span {
+  display: none;
+  font-size: 18px;
+}
+
+@media all and (min-width: 720px) {
+  .c-tabs-nav__link i {
+    margin-bottom: 12px;
+    font-size: 22px;
+  }
+  .c-tabs-nav__link span {
+    display: block;
+  }
 }

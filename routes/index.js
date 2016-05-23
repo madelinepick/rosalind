@@ -11,7 +11,7 @@ var cookieParser = require('cookie-parser');
 router.get('/', function(req, res, next) {
   scope = 'rs41362547%20basic%20names%20ancestry';
   if (req.signedCookies.access_token) {
-        var basic_info = {};
+        var basic_info = {}, ancestry;
         var base_uri = 'https://api.23andme.com/1';
         var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
         request.get({ url: base_uri + '/demo/names/', headers: headers, json: true }, function (e, r, body) {
@@ -23,10 +23,18 @@ router.get('/', function(req, res, next) {
                 basic_info.last_name = body.last_name;
                 basic_info.profile_id = body.profiles[0].id;
                 request.get({ url: base_uri + '/demo/ancestry/'+basic_info.profile_id, headers: headers, json: true}, function (e, r, body) {
-                    console.log("body", body.ancestry);
-                    res.render('result', {
-                        basic_info: basic_info
+                  if(r.statusCode != 200) {
+                      res.clearCookie('access_token');
+                      res.redirect('/');
+                  } else {
+                    ancestry = body.ancestry.sub_populations;
+                    request.get({ url: base_uri + '/demo/ancestry/'+basic_info.profile_id, headers: headers, json: true}, function (e, r, body) {
+                      res.render('result', {
+                          ancestry: ancestry,
+                          basic_info: basic_info
+                      });
                     });
+                  }
                 });
             }
         });
