@@ -61,6 +61,9 @@ a {
   text-decoration: none;
   color: #BBBBBB;
 }
+.activenav {
+  color: #F65B77;
+}
 .logo {
   display: block;
   margin-left: auto;

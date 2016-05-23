@@ -16,6 +16,9 @@ router.get('/physical', function(req, res, next) {
 router.get('/intentions', function(req, res, next) {
   res.render('intentions')
 });
+router.get('/ancestry', function(req, res, next) {
+  res.render('ancestry')
+});
 
 router.get('/', function(req, res, next) {
   scope = 'rs41362547%20basic%20names%20ancestry%20'+snps;
@@ -41,9 +44,12 @@ router.get('/', function(req, res, next) {
                 if(user.length > 0){
                   return knex('users')
                       .innerJoin('ancestry', 'users.id', 'ancestry.user_id')
-                      .innerJoin('snps', 'users.id', 'genotypes.user_id')
+                      .innerJoin('snps', 'users.id', 'snps.user_id')
                       .then(function(results){
-                        console.log(results);
+                        res.render('ancestry', {
+                          ancestry: ancestry,
+                          basic_info: basic_info
+                          });
                       })
                 } else {
                   return knex('users').insert({email: basic_info.email, first_name: basic_info.first_name, last_name:basic_info.last_name})
