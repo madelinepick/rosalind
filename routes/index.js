@@ -52,14 +52,90 @@ router.get('/mental', function(req, res, next) {
     res.redirect('/');
   }
 });
+
 router.get('/physical', function(req, res, next) {
-  res.render('physical')
+  if (req.signedCookies.access_token) {
+    var basic_info = {}, ancestry = {}, genotypes = {};
+    var base_uri = 'https://api.23andme.com/1';
+    var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
+    request.get({ url: base_uri + '/demo/user/?email=true', headers: headers, json: true }, function (e, r, body) {
+      console.log(body);
+      basic_info.email = body.email;
+      if(r.statusCode != 200) {
+        res.clearCookie('access_token');
+        res.redirect('/');
+      } else {
+        knex('users').where({email: basic_info.email})
+          .join('snps', 'users.id', 'snps.user_id')
+          .then(function(snps){
+            console.log(snps);
+            basic_info.first_name = snps[0].first_name;
+            basic_info.last_name = snps[0].last_name;
+            genotypes.rs7089424 = snps[0].rs7089424,
+            genotypes.rs53576 = snps[0].rs53576,
+            genotypes.rs1800497 = snps[0].rs1800497,
+            genotypes.rs17077540 = snps[0].rs17077540,
+            genotypes.rs1121980 = snps[0].rs1121980,
+            genotypes.rs2241880 = snps[0].rs2241880,
+            genotypes.rs13266634 = snps[0].rs13266634,
+            genotypes.rs2180439 = snps[0].rs2180439 ,
+            genotypes.rs307377 = snps[0].rs307377,
+            genotypes.rs807701 = snps[0].rs807701,
+            genotypes.rs664143 = snps[0].rs664143,
+            genotypes.rs2802292 = snps[0].rs2802292,
+            genotypes.rs1800955 = snps[0].rs1800955,
+            genotypes.rs4307059 = snps[0].rs4307059,
+            genotypes.rs10830963 = snps[0].rs10830963,
+              res.render('physical', {
+                basic_info: basic_info,
+                genotypes: genotypes
+              })
+          })
+        }
+      })
+    }
+  else {
+    res.redirect('/');
+  }
 });
 router.get('/intentions', function(req, res, next) {
   res.render('intentions')
 });
 router.get('/ancestry', function(req, res, next) {
-  res.render('ancestry')
+  if (req.signedCookies.access_token) {
+    var basic_info = {}, ancestry = {}, genotypes = {};
+    var base_uri = 'https://api.23andme.com/1';
+    var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
+    request.get({ url: base_uri + '/demo/user/?email=true', headers: headers, json: true }, function (e, r, body) {
+      console.log(body);
+      basic_info.email = body.email;
+      if(r.statusCode != 200) {
+        res.clearCookie('access_token');
+        res.redirect('/');
+      } else {
+        console.log('IN THE ROUTE');
+        knex('users').where({email: basic_info.email})
+          .join('ancestry', 'users.id', 'ancestry.user_id')
+          .then(function(ancestryData){
+            basic_info.first_name = ancestryData[0].first_name;
+            basic_info.last_name = ancestryData[0].last_name;
+            ancestry.sub_saharan_african = ancestryData[0].sub_saharan_african;
+            ancestry.european = ancestryData[0].european;
+            ancestry.oceanian = ancestryData[0].oceanian;
+            ancestry.east_asian_native_american = ancestryData[0].east_asian_native_american;
+            ancestry.south_asian = ancestryData[0].south_asian;
+            ancestry.middle_eastern_north_african = ancestryData[0].middle_eastern_north_african;
+              res.render('ancestry', {
+                basic_info: basic_info,
+                ancestry: ancestry
+              })
+          })
+        }
+      })
+    }
+  else {
+    res.redirect('/');
+  }
 });
 
 router.get('/', function(req, res, next) {

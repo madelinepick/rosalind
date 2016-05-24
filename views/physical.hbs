@@ -16,7 +16,7 @@
 
 <div class="main">
   <div class="tabnav ancestry">
-    <a href="/"><h2>Ancestry</h2></a>
+    <a href="/ancestry"><h2>Ancestry</h2></a>
   </div>
   <div class=" tabactive tabnav physical">
     <a href="/physical"><h2>Physical</h2></a>
@@ -28,6 +28,12 @@
     <a href="/intentions"><h2>Intentions</h2></a>
   </div>
   <div class="tab physical">
-    ABOUT PHYSICAL
+    <p>
+      {{basic_info.first_name}}
+      {{basic_info.last_name}}
+    </p>
+    {{#each genotypes}}
+    {{@key}}: {{this}}
+    {{/each}}
   </div>
 </div>
