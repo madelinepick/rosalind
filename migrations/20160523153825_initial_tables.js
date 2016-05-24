@@ -10,6 +10,7 @@ exports.up = function(knex, Promise) {
   .createTable('ancestry', function(table){
   table.increments();
   table.string('sub_saharan_african');
+  table.string('european');
   table.string('oceanian');
   table.string('east_asian_native_american');
   table.string('south_asian');

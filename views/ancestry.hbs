@@ -36,10 +36,7 @@
     </p>
     <p>
       {{#each ancestry}}
-      <h3>{{this.label}}</h3>
-      <p>
-        {{this.proportion}}
-      </p>
+      {{@key}}: {{this}}
       {{/each}}
     </p>
   </div>
