@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var cookieParser = require('cookie-parser');
-var knex = require('knex')(require('../knexfile')['development']);
+var knex = require('knex')(require('../knexfile')['production']);
 var snps = 'rs4307059%20rs1800497%20rs53576%20rs10830963%20rs7089424%20rs10484554%20rs2241880%20rs2802292%20rs13266634%20rs2180439%20rs1121980%20rs664143%20rs307377%20rs1815739%20rs807701%20rs17077540%20rs1800955%20rs987525';
 
 

@@ -166,3 +166,6 @@ a {
   display: inline;
   padding-right: 10px;
 }
+.information {
+  opacity: 0;
+}

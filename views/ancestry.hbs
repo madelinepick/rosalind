@@ -29,6 +29,9 @@
   </div>
   <div class="tab ancestry">
     <div class="chart">
+      <div class="information">
+        SOME INFO
+      </div>
     </div>
   </div>
 </div>
@@ -97,4 +100,13 @@ var svg = d3.select(".chart").append("svg")
         .text(function (d) {
         return d.data.region;
     });
+
+    // $( document ).ready(function() {
+    //   $('path').on('mouseenter', function(){
+    //     $('.information').css({'opacity': 1});
+    //   })
+    //   $('path').on('mouseleave', function(){
+    //     $('.information').css({'opacity': 0});
+    //   })
+    // });
 </script>
