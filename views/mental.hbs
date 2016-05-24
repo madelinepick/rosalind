@@ -27,6 +27,8 @@
     <a href="/intentions"><h2>Intentions</h2></a>
   </div>
   <div class="tab mental">
-    INFO ABOUT MENTAL
+    {{#each genotypes}}
+    {{@key}}: {{this}}
+    {{/each}}
   </div>
 </div>
