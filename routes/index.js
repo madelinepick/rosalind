@@ -10,6 +10,12 @@ var snps = 'rs4307059%20rs1800497%20rs53576%20rs10830963%20rs7089424%20rs1048455
 router.get('/mental', function(req, res, next) {
   if (req.signedCookies.access_token) {
     var basic_info = {}, ancestry = {}, genotypes = {};
+    genotypes.rs53576 = {};
+    genotypes.rs1800497 = {};
+    genotypes.rs17077540 = {};
+    genotypes.rs807701 = {};
+    genotypes.rs1800955 = {};
+    genotypes.rs4307059 = {};
     var base_uri = 'https://api.23andme.com/1';
     var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
     request.get({ url: base_uri + '/demo/user/?email=true', headers: headers, json: true }, function (e, r, body) {
@@ -23,27 +29,25 @@ router.get('/mental', function(req, res, next) {
           .join('snps', 'users.id', 'snps.user_id')
           .then(function(snps){
             console.log(snps);
-            basic_info.first_name = snps[0].first_name;
-            basic_info.last_name = snps[0].last_name;
-            genotypes.rs7089424 = snps[0].rs7089424,
-            genotypes.rs53576 = snps[0].rs53576,
-            genotypes.rs1800497 = snps[0].rs1800497,
-            genotypes.rs17077540 = snps[0].rs17077540,
-            genotypes.rs1121980 = snps[0].rs1121980,
-            genotypes.rs2241880 = snps[0].rs2241880,
-            genotypes.rs13266634 = snps[0].rs13266634,
-            genotypes.rs2180439 = snps[0].rs2180439 ,
-            genotypes.rs307377 = snps[0].rs307377,
-            genotypes.rs807701 = snps[0].rs807701,
-            genotypes.rs664143 = snps[0].rs664143,
-            genotypes.rs2802292 = snps[0].rs2802292,
-            genotypes.rs1800955 = snps[0].rs1800955,
-            genotypes.rs4307059 = snps[0].rs4307059,
-            genotypes.rs10830963 = snps[0].rs10830963,
+            genotypes.rs53576.value = snps[0].rs53576,
+            genotypes.rs1800497.value = snps[0].rs1800497,
+            genotypes.rs17077540.value = snps[0].rs17077540,
+            genotypes.rs807701.value = snps[0].rs807701,
+            genotypes.rs1800955.value = snps[0].rs1800955,
+            genotypes.rs4307059.value = snps[0].rs4307059
+            return knex('snp_info').then(function(snpInfo){
+              console.log(snpInfo);
+              genotypes.rs53576.info = snpInfo[1];
+              genotypes.rs1800497.info = snpInfo[2];
+              genotypes.rs17077540.info = snpInfo[3];
+              genotypes.rs807701.info = snpInfo[9];
+              genotypes.rs1800955.info = snpInfo[12];
+              genotypes.rs4307059.info = snpInfo[13];
               res.render('mental', {
                 basic_info: basic_info,
                 genotypes: genotypes
               })
+            })
           })
         }
       })
@@ -56,40 +60,55 @@ router.get('/mental', function(req, res, next) {
 router.get('/physical', function(req, res, next) {
   if (req.signedCookies.access_token) {
     var basic_info = {}, ancestry = {}, genotypes = {};
+    genotypes.rs7089424 = {};
+    genotypes.rs1121980 = {};
+    genotypes.rs2241880 = {};
+    genotypes.rs13266634 = {};
+    genotypes.rs2180439 = {};
+    genotypes.rs307377 = {};
+    genotypes.rs664143 = {};
+    genotypes.rs2802292 = {};
+    genotypes.rs10830963 = {};
     var base_uri = 'https://api.23andme.com/1';
     var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
     request.get({ url: base_uri + '/demo/user/?email=true', headers: headers, json: true }, function (e, r, body) {
-      console.log(body);
       basic_info.email = body.email;
       if(r.statusCode != 200) {
         res.clearCookie('access_token');
         res.redirect('/');
       } else {
-        knex('users').where({email: basic_info.email})
+        return knex('users').where({email: basic_info.email})
           .join('snps', 'users.id', 'snps.user_id')
           .then(function(snps){
-            console.log(snps);
             basic_info.first_name = snps[0].first_name;
             basic_info.last_name = snps[0].last_name;
-            genotypes.rs7089424 = snps[0].rs7089424,
-            genotypes.rs53576 = snps[0].rs53576,
-            genotypes.rs1800497 = snps[0].rs1800497,
-            genotypes.rs17077540 = snps[0].rs17077540,
-            genotypes.rs1121980 = snps[0].rs1121980,
-            genotypes.rs2241880 = snps[0].rs2241880,
-            genotypes.rs13266634 = snps[0].rs13266634,
-            genotypes.rs2180439 = snps[0].rs2180439 ,
-            genotypes.rs307377 = snps[0].rs307377,
-            genotypes.rs807701 = snps[0].rs807701,
-            genotypes.rs664143 = snps[0].rs664143,
-            genotypes.rs2802292 = snps[0].rs2802292,
-            genotypes.rs1800955 = snps[0].rs1800955,
-            genotypes.rs4307059 = snps[0].rs4307059,
-            genotypes.rs10830963 = snps[0].rs10830963,
+            genotypes.rs7089424.value = snps[0].rs7089424;
+            genotypes.rs1121980.value = snps[0].rs1121980;
+            genotypes.rs2241880.value = snps[0].rs2241880;
+            genotypes.rs13266634.value = snps[0].rs13266634;
+            genotypes.rs2180439.value = snps[0].rs2180439 ;
+            genotypes.rs307377.value = snps[0].rs307377;
+            genotypes.rs664143.value = snps[0].rs664143;
+            genotypes.rs2802292.value = snps[0].rs2802292;
+            genotypes.rs10830963.value = snps[0].rs10830963;
+
+            return knex('snp_info').then(function(snpInfo){
+              console.log(snpInfo[0]);
+              genotypes.rs7089424.info = snpInfo[0];
+              genotypes.rs1121980.info = snpInfo[4];
+              genotypes.rs2241880.info = snpInfo[5];
+              genotypes.rs13266634.info = snpInfo[6];
+              genotypes.rs2180439.info = snpInfo[7];
+              genotypes.rs307377.info = snpInfo[8];
+              genotypes.rs664143.info = snpInfo[10];
+              genotypes.rs2802292.info = snpInfo[11];
+              genotypes.rs10830963.info = snpInfo[14];
+              console.log(genotypes.rs7089424.info);
               res.render('physical', {
                 basic_info: basic_info,
                 genotypes: genotypes
               })
+            })
           })
         }
       })
