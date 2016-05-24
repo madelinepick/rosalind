@@ -76,9 +76,12 @@ a {
 }
 .tab {
   width: 90%;
+  padding: 20px 1%;
   border: 2px solid #FFC565;
   z-index: 10;
   background-color: white !important;
+  display: flex;
+  flex-wrap: wrap;
 }
 .tabnav {
   height: 48px;
@@ -122,4 +125,29 @@ a {
   background-color: white;
   height: 50px;
   z-index: 1000;
+}
+.tabheader {
+  flex: 0 0 98%;
+}
+.box {
+  flex: 0 0 31%;
+  margin: 20px 1%;
+  border: 1px solid red;
+}
+.boxheader{
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+}
+.boxheader > h3 {
+  font-size: 20px;
+  color: #49A4FF;
+  font-family: 'Inconsolata', sans-serif;
+  font-weight: 400;
+  display: inline;
+}
+.boxheader > i {
+  color:#F65B77;
+  display: inline;
+  padding-right: 10px;
 }

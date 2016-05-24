@@ -28,12 +28,17 @@
     <a href="/intentions"><h2>Intentions</h2></a>
   </div>
   <div class="tab physical">
-    <p>
+    <p class='tabheader'>
       {{basic_info.first_name}}
       {{basic_info.last_name}}
     </p>
     {{#each genotypes}}
-    {{@key}}: {{this}}
+    <div class="box">
+      <div class="boxheader">
+        <i class="fa fa-camera-retro fa-2x"></i>
+        <h3>{{@key}}: {{this}}</h3>
+      </div>
+    </div>
     {{/each}}
   </div>
 </div>
