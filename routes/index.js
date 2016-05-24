@@ -7,6 +7,10 @@ var snps = 'rs4307059%20rs1800497%20rs53576%20rs10830963%20rs7089424%20rs1048455
 
 
 /* GET home page. */
+router.get('/logout', function(req,res,next){
+  res.clearCookie('access_token');
+  res.redirect('/');
+})
 router.get('/mental', function(req, res, next) {
   if (req.signedCookies.access_token) {
     var basic_info = {}, ancestry = {}, genotypes = {};

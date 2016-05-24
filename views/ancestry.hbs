@@ -10,7 +10,7 @@
   <ul>
     <li><a class='activenav' href="#">HOME</a></li>
     <li><a href="#">SETTINGS</a></li>
-    <li><a href="#">LOGOUT</a></li>
+    <li><a href="/logout">LOGOUT</a></li>
   </ul>
 </header>
 
@@ -28,15 +28,73 @@
     <a href="/intentions"><h2>Intentions</h2></a>
   </div>
   <div class="tab ancestry">
-    <p>
-      {{basic_info.first_name}}
-      {{basic_info.last_name}}
-      {{basic_info.email}}
-    </p>
-    <p>
-      {{#each ancestry}}
-      {{@key}}: {{this}}
-      {{/each}}
-    </p>
+    <div class="chart">
+    </div>
   </div>
 </div>
+
+<script type="text/javascript">
+sub_saharan_african = {{ancestry.sub_saharan_african}};
+european = {{ancestry.european}};
+oceanian = {{ancestry.oceanian}};
+east_asian_native_american = {{ancestry.east_asian_native_american}};
+south_asian = {{ancestry.south_asian}};
+middle_eastern_north_african = {{ancestry.middle_eastern_north_african}};
+other = 1-{{ancestry.sub_saharan_african}} - {{ancestry.european}} - {{ancestry.oceanian}} - {{ancestry.east_asian_native_american}} - {{ancestry.south_asian}}-{{ancestry.middle_eastern_north_african}};
+
+var data=[{"region":"Sub Saharan African:  "+(sub_saharan_african*100)+"%","Proportion":sub_saharan_african},{"region":"European: "+(european*100)+"%","Proportion":european},{"region":"Oceanian: "+(oceanian*100)+"%","Proportion":oceanian},{"region":"East Asian and Native America: "+(east_asian_native_american*100)+"%","Proportion":east_asian_native_american},{"region":"South Asian: "+(south_asian*100)+"%","Proportion":south_asian},{"region":"Middle Eastern and North African: "+(middle_eastern_north_african*100)+"%","Proportion":middle_eastern_north_african},{"region":"Other: "+(other*100)+"%","Proportion":other}];
+
+var finalData = [];
+
+for (var i = 0; i < data.length; i++) {
+  if(data[i].Proportion > 0){
+    finalData.push(data[i])
+  }
+}
+
+var width = 500,
+    height = 500,
+    padding = 20,
+    radius = Math.min(width-padding, height-padding) / 2;
+
+var color = d3.scale.ordinal()
+    .range(["#ABE9AC", "#FFC565", "#D6F388", "#72D6E9", "#49A4FF", "#F65B77"]);
+
+var arc = d3.svg.arc()
+    .outerRadius(radius - 10)
+    .innerRadius(radius - 100);
+
+var pie = d3.layout.pie()
+    .sort(null)
+    .value(function (d) {
+    return d.Proportion;
+});
+
+var svg = d3.select(".chart").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    var g = svg.selectAll(".arc")
+        .data(pie(finalData))
+        .enter().append("g")
+        .attr("class", "arc");
+
+    g.append("path")
+        .attr("d", arc)
+        .style("fill", function (d) {
+        return color(d.data.region);
+    });
+
+    g.append("text")
+        .attr("class", "charttext")
+        .attr("transform", function (d) {
+        return "translate(" + arc.centroid(d) + ")";
+    })
+        .attr("dy", ".35em")
+        .style("text-anchor", "middle")
+        .text(function (d) {
+        return d.data.region;
+    });
+</script>
