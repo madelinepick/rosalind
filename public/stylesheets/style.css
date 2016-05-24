@@ -55,7 +55,8 @@ header > ul {
 header > ul > li {
   list-style: none;
   display: inline;
-  margin-left: 10px
+  margin-left: 10px;
+  font-size: 14px;
 }
 a {
   text-decoration: none;
