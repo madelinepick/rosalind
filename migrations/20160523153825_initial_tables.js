@@ -40,6 +40,7 @@ exports.up = function(knex, Promise) {
   table.increments();
   table.string('name');
   table.string('description');
+  table.string('link');
   table.string('advice_one');
   table.string('advice_two');
   })
