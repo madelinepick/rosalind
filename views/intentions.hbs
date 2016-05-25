@@ -28,6 +28,12 @@
     <a href="/intentions"><h2>Intentions</h2></a>
   </div>
   <div class="tab intentions">
-    INFO ABOUT INTENTSIONS
+    <div class="list">
+      {{#each intentions}}
+      <p>{{this.description}}</p>
+      <i class="fa fa-check-circle fa-2x"></i>
+      <h5>Started: {{this.start}}</h5>
+      {{/each}}
+    </div>
   </div>
 </div>

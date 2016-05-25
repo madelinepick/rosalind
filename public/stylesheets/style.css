@@ -180,3 +180,22 @@ a {
 h6 {
   display: none;
 }
+.list {
+  padding: 20px;
+}
+.list > p {
+  font-family: 'Inconsolata', sans-serif;
+  font-weight: 400;
+  color: #333;
+  width: 60%;
+  display: inline-block;
+}
+.list > i {
+  display: inline-block;
+  color: #F65B77;
+}
+.list > h5 {
+  font-family: 'Inconsolata', sans-serif;
+  font-size: 14px;
+  margin: 0px;
+}

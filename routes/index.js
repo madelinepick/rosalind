@@ -11,10 +11,46 @@ router.get('/logout', function(req,res,next){
   res.clearCookie('access_token');
   res.redirect('/');
 })
+router.get('/intentions', function(req,res,next){
+  if (req.signedCookies.access_token) {
+    var basic_info = {}, intentions={};
+    var base_uri = 'https://api.23andme.com/1';
+    var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
+    request.get({ url: base_uri + '/demo/user/?email=true', headers: headers, json: true }, function (e, r, body) {
+      basic_info.email = body.email;
+      if(r.statusCode != 200) {
+        res.clearCookie('access_token');
+        res.redirect('/');
+      } else {
+        knex('users').where({email: basic_info.email})
+          .join('intentions', 'users.id', 'intentions.user_id')
+          .then(function(intentions){
+            console.log(intentions);
+            res.render('intentions', {
+              intentions: intentions
+            })
+          })
+        }
+      })
+    }
+  else {
+    res.redirect('/');
+  }
+
+})
 router.post('/list/add', function(req,res,next){
   knex('intentions').insert({description: req.body.intention, start: req.body.date, user_id:req.body.user_id})
     .then(function(intention){
       console.log('success');
+    })
+})
+router.post('/list/update', function(req,res,next){
+  console.log(req.body.intention);
+  console.log('end', req.body.end);
+  knex('intentions').where({description: req.body.intention}).update({end: req.body.end})
+    .returning('*')
+    .then(function(intention){
+      console.log('intention update', intention);
     })
 })
 router.get('/mental', function(req, res, next) {
@@ -128,9 +164,6 @@ router.get('/physical', function(req, res, next) {
   else {
     res.redirect('/');
   }
-});
-router.get('/intentions', function(req, res, next) {
-  res.render('intentions')
 });
 router.get('/ancestry', function(req, res, next) {
   if (req.signedCookies.access_token) {
