@@ -23,7 +23,7 @@ header {
  z-index:100000;
 
 }
-header > button {
+header > a > button {
   padding: 10px 15px;
   background-color:#F65B77;
   border: none;
@@ -33,7 +33,7 @@ header > button {
   display: inline;
   height: 50px;
 }
-header > button > a {
+header > a {
   color: white;
   font-family: "Lato", sans-serif;
   text-transform: uppercase;
@@ -42,7 +42,7 @@ header > button > a {
   vertical-align: middle;
   font-weight: 300;
 }
-header > button > img {
+header > a > button > img {
   width: 20px;
   vertical-align: middle;
   padding-right: 5px;
