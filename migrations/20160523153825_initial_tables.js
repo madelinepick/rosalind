@@ -59,5 +59,4 @@ exports.down = function(knex, Promise) {
   .dropTable('ancestry')
   .dropTable('snps')
   .dropTable('snp_info')
-  .dropTable('intentions')
 };
