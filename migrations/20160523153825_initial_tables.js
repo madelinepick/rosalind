@@ -47,6 +47,7 @@ exports.up = function(knex, Promise) {
   .createTable('intentions', function(table){
   table.increments();
   table.string('description');
+  table.string('create');
   table.string('start');
   table.string('end');
   table.integer('user_id');

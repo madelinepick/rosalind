@@ -30,10 +30,35 @@
   <div class="tab intentions">
     <div class="list">
       {{#each intentions}}
-      <p>{{this.description}}</p>
-      <i class="fa fa-check-circle fa-2x"></i>
-      <h5>Started: {{this.start}}</h5>
+      <div class="listitem">
+        <p class='intention'>{{this.description}}</p>
+        {{#if this.end}}
+        <i class="fa fa-check fa-2x"></i>
+        {{else if this.start}}
+        <button type="button" class='complete'>Complete</button>
+        {{else}}
+        <button type="button" class='start'>Start</button>
+        {{/if}}
+        <h5>Added: {{this.create}}</h5>
+      </div>
       {{/each}}
     </div>
+    <div class="intentionchart">
+
+    </div>
+  </div>
+</div>
+
+<div class="overlay overlaystart">
+  <div class="overlayInset">
+    <h2>Yay you started a thing! You're cool!</h2>
+    <img class='close' src="https://api.icons8.com/download/6a145bf660d8bd09337d6169823882c8356a924c/iOS7/PNG/256/User_Interface/delete_sign-256.png" alt="" />
+  </div>
+</div>
+
+<div class="overlay overlaycomplete">
+  <div class="overlayInset">
+    <h2>Yay you completed a thing! You're awesome!</h2>
+    <img class='close' src="https://api.icons8.com/download/6a145bf660d8bd09337d6169823882c8356a924c/iOS7/PNG/256/User_Interface/delete_sign-256.png" alt="" />
   </div>
 </div>

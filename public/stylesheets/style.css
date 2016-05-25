@@ -156,6 +156,10 @@ a {
   margin-left: 5%;
   vertical-align: middle;
   color: #49A4FF;
+  transition: all .2s ease-in-out;
+}
+.advice > i:hover {
+  transform: scale(1.2);
 }
 .boxheader{
   display: table;
@@ -182,20 +186,87 @@ h6 {
 }
 .list {
   padding: 20px;
+  flex: 0 0 60%;
 }
-.list > p {
+.listitem > p {
   font-family: 'Inconsolata', sans-serif;
   font-weight: 400;
   color: #333;
-  width: 60%;
+  width: 80%;
   display: inline-block;
+  vertical-align: middle;
 }
-.list > i {
+.listitem> i {
   display: inline-block;
   color: #F65B77;
+  vertical-align: middle;
+    color: #ABE9AC;
 }
-.list > h5 {
+.listitem> button {
+  display: inline-block;
+  vertical-align: middle;
+  border: none;
+  font-family: 'Lato',sans-serif;
+  font-size: 12px;
+  padding: 10px;
+  color: #333;
+  text-transform: uppercase;
+  transition: all .2s ease-in-out;
+}
+.listitem> button:hover {
+  transform: scale(1.1);
+}
+.listitem > h5 {
   font-family: 'Inconsolata', sans-serif;
   font-size: 14px;
   margin: 0px;
+}
+.checkedoff {
+  color: #ABE9AC !important;
+}
+
+.overlay{
+    opacity:1;
+    background-color:rgba(123,123,123, .7);
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    z-index:100000;
+    display: none;
+    align-items: center;
+}
+.overlayInset {
+  width: 30%;
+  margin-left: 35%;
+  background-color: white;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 15px;
+}
+.overlayInset > h2 {
+  font-family: 'Inconsolata', sans-serif;
+  font-size: 18px;
+  color: #49A4FF;
+  width: 70%;
+  display: inline-block;
+}
+.close {
+  width: 30px;
+  float: right;
+  display: inline-block;
+}
+.intentionchart {
+  border: 1px solid purple;
+  flex: 0 0 30%;
+}
+.start {
+  background-color: #49A4FF;
+}
+.complete {
+  background-color: #F65B77;
+}
+.intention {
+  padding-right: 10px;
 }

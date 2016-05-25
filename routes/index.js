@@ -39,18 +39,28 @@ router.get('/intentions', function(req,res,next){
 
 })
 router.post('/list/add', function(req,res,next){
-  knex('intentions').insert({description: req.body.intention, start: req.body.date, user_id:req.body.user_id})
+  knex('intentions').insert({description: req.body.intention, create: req.body.create, user_id:req.body.user_id})
     .then(function(intention){
       console.log('success');
     })
 })
-router.post('/list/update', function(req,res,next){
+router.post('/list/start', function(req,res,next){
+  console.log(req.body.intention);
+  console.log('end', req.body.start);
+  knex('intentions').where({description: req.body.intention}).update({start: req.body.start})
+    .returning('*')
+    .then(function(intention){
+      res.end('{"success" : "Updated Successfully", "status" : 200}');
+    })
+})
+
+router.post('/list/complete', function(req,res,next){
   console.log(req.body.intention);
   console.log('end', req.body.end);
   knex('intentions').where({description: req.body.intention}).update({end: req.body.end})
     .returning('*')
     .then(function(intention){
-      console.log('intention update', intention);
+      res.end('{"success" : "Updated Successfully", "status" : 200}');
     })
 })
 router.get('/mental', function(req, res, next) {
