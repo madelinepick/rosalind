@@ -278,6 +278,6 @@ rect {
   font: 10px sans-serif;
   text-anchor: end;
 }
-.chart {
-  border-left: 4px solid red;
+.solid {
+  border-left: 4px solid #333;
 }
