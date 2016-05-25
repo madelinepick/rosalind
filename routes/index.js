@@ -13,7 +13,7 @@ router.get('/logout', function(req,res,next){
 })
 router.get('/intentions', function(req,res,next){
   if (req.signedCookies.access_token) {
-    var basic_info = {}, intentions={};
+    var basic_info = {}, intentions={}, chartData = {};
     var base_uri = 'https://api.23andme.com/1';
     var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
     request.get({ url: base_uri + '/demo/user/?email=true', headers: headers, json: true }, function (e, r, body) {
@@ -25,9 +25,27 @@ router.get('/intentions', function(req,res,next){
         knex('users').where({email: basic_info.email})
           .join('intentions', 'users.id', 'intentions.user_id')
           .then(function(intentions){
-            console.log(intentions);
-            res.render('intentions', {
-              intentions: intentions
+            var intentions = intentions;
+
+            Promise.all([
+              knex('intentions').where({user_id: intentions[0].user_id})
+              .count('create'),
+              knex('intentions').where({user_id: intentions[0].user_id})
+              .count('start'),
+              knex('intentions').where({user_id: intentions[0].user_id})
+              .count('end')
+            ])
+            .then(function(data){
+              chartData.created = data[0][0].count;
+              chartData.started = data[1][0].count;
+              chartData.completed = data[2][0].count;
+              res.render('intentions', {
+                intentions: intentions,
+                chartData: chartData
+              })
+            })
+            .catch(function(err){
+              next(err);
             })
           })
         }
@@ -41,12 +59,9 @@ router.get('/intentions', function(req,res,next){
 router.post('/list/add', function(req,res,next){
   knex('intentions').insert({description: req.body.intention, create: req.body.create, user_id:req.body.user_id})
     .then(function(intention){
-      console.log('success');
     })
 })
 router.post('/list/start', function(req,res,next){
-  console.log(req.body.intention);
-  console.log('end', req.body.start);
   knex('intentions').where({description: req.body.intention}).update({start: req.body.start})
     .returning('*')
     .then(function(intention){
@@ -55,8 +70,6 @@ router.post('/list/start', function(req,res,next){
 })
 
 router.post('/list/complete', function(req,res,next){
-  console.log(req.body.intention);
-  console.log('end', req.body.end);
   knex('intentions').where({description: req.body.intention}).update({end: req.body.end})
     .returning('*')
     .then(function(intention){
@@ -75,7 +88,6 @@ router.get('/mental', function(req, res, next) {
     var base_uri = 'https://api.23andme.com/1';
     var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
     request.get({ url: base_uri + '/demo/user/?email=true', headers: headers, json: true }, function (e, r, body) {
-      console.log(body);
       basic_info.email = body.email;
       if(r.statusCode != 200) {
         res.clearCookie('access_token');
@@ -84,7 +96,6 @@ router.get('/mental', function(req, res, next) {
         knex('users').where({email: basic_info.email})
           .join('snps', 'users.id', 'snps.user_id')
           .then(function(snps){
-            console.log(snps);
             genotypes.rs53576.value = snps[0].rs53576,
             genotypes.rs1800497.value = snps[0].rs1800497,
             genotypes.rs17077540.value = snps[0].rs17077540,
@@ -93,7 +104,6 @@ router.get('/mental', function(req, res, next) {
             genotypes.rs4307059.value = snps[0].rs4307059
             basic_info.profile_id = snps[0].id;
             return knex('snp_info').then(function(snpInfo){
-              console.log(snpInfo);
               genotypes.rs53576.info = snpInfo[1];
               genotypes.rs1800497.info = snpInfo[2];
               genotypes.rs17077540.info = snpInfo[3];
@@ -151,7 +161,6 @@ router.get('/physical', function(req, res, next) {
             basic_info.profile_id = snps[0].id;
 
             return knex('snp_info').then(function(snpInfo){
-              console.log(snpInfo[0]);
               genotypes.rs7089424.info = snpInfo[0];
               genotypes.rs1121980.info = snpInfo[4];
               genotypes.rs2241880.info = snpInfo[5];
@@ -161,7 +170,6 @@ router.get('/physical', function(req, res, next) {
               genotypes.rs664143.info = snpInfo[10];
               genotypes.rs2802292.info = snpInfo[11];
               genotypes.rs10830963.info = snpInfo[14];
-              console.log(genotypes.rs7089424.info);
               res.render('physical', {
                 basic_info: basic_info,
                 genotypes: genotypes
@@ -181,13 +189,11 @@ router.get('/ancestry', function(req, res, next) {
     var base_uri = 'https://api.23andme.com/1';
     var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
     request.get({ url: base_uri + '/demo/user/?email=true', headers: headers, json: true }, function (e, r, body) {
-      console.log(body);
       basic_info.email = body.email;
       if(r.statusCode != 200) {
         res.clearCookie('access_token');
         res.redirect('/');
       } else {
-        console.log('IN THE ROUTE');
         knex('users').where({email: basic_info.email})
           .join('ancestry', 'users.id', 'ancestry.user_id')
           .then(function(ancestryData){
@@ -236,10 +242,8 @@ router.get('/', function(req, res, next) {
               ancestry.east_asian_native_american = body.ancestry.sub_populations[3].proportion;
               ancestry.south_asian = body.ancestry.sub_populations[4].proportion;
               ancestry.middle_eastern_north_african = body.ancestry.sub_populations[5].proportion;
-              console.log('ancestry at beginning', ancestry);
               request.get({ url: base_uri + '/demo/genotypes/'+basic_info.profile_id+'/?locations='+snps+'&format=true', headers:  headers, json:true}, function (e, r, body) {
               genotypes = body;
-              console.log('genotypes at beginning', genotypes);
               return knex('users').where({email:basic_info.email}).then(function(user){
                 if(user.length > 0){
                   return knex('users')
@@ -261,12 +265,10 @@ router.get('/', function(req, res, next) {
                   return knex('users').insert({email: basic_info.email, first_name: basic_info.first_name, last_name:basic_info.last_name})
                         .returning('*')
                         .then(function(user){
-                          console.log(user);
                           basic_info.first_name = user[0].first_name;
                           basic_info.last_name = user[0].last_name;
                           basic_info.email = user[0].email;
                           basic_info.profile_id = user[0].id;
-                          console.log(basic_info);
                           return knex('snps').insert({
                             rs7089424:genotypes.rs7089424,
                             rs53576: genotypes.rs53576,
@@ -287,8 +289,6 @@ router.get('/', function(req, res, next) {
                           })
                         .returning('*')
                         .then(function(snps){
-                        console.log('genotypes at end', snps[0]);
-                        console.log('ancestry in knex call', ancestry);
                         knex('ancestry').insert({
                           sub_saharan_african: ancestry.sub_saharan_african,
                           european: ancestry.european,

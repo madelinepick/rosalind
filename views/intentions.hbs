@@ -44,7 +44,10 @@
       {{/each}}
     </div>
     <div class="intentionchart">
+      <h2>Your Progress</h2>
+      <svg class="chart">
 
+      </svg>
     </div>
   </div>
 </div>
@@ -62,3 +65,39 @@
     <img class='close' src="https://api.icons8.com/download/6a145bf660d8bd09337d6169823882c8356a924c/iOS7/PNG/256/User_Interface/delete_sign-256.png" alt="" />
   </div>
 </div>
+
+<script type="text/javascript">
+var data = [];
+data[0] = Number({{chartData.created}});
+data[1] = Number({{chartData.started}});
+data[2] = Number({{chartData.completed}});
+
+var width = 300,
+    barHeight = 40;
+
+var color = d3.scale.ordinal()
+    .range(["#ABE9AC", "#FFC565", "#D6F388", "#72D6E9", "#49A4FF", "#F65B77"]);
+
+var x = d3.scale.linear()
+    .domain([0, d3.max(data)])
+    .range([0, width]);
+
+var chart = d3.select(".chart")
+    .attr("width", width)
+    .attr("height", barHeight * data.length);
+
+var bar = chart.selectAll("g")
+    .data(data)
+  .enter().append("g")
+    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+
+bar.append("rect")
+    .attr("width", x)
+    .attr("height", barHeight - 1);
+
+bar.append("text")
+    .attr("x", function(d) { return x(d) - 3; })
+    .attr("y", barHeight / 2)
+    .attr("dy", ".35em")
+    .text(function(d) { return (d); });
+</script>

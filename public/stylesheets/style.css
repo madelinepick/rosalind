@@ -258,7 +258,6 @@ h6 {
   display: inline-block;
 }
 .intentionchart {
-  border: 1px solid purple;
   flex: 0 0 30%;
 }
 .start {
@@ -269,4 +268,16 @@ h6 {
 }
 .intention {
   padding-right: 10px;
+}
+rect {
+  fill: #49A4FF;
+}
+
+.chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+.chart {
+  border-left: 4px solid red;
 }
