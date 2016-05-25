@@ -44,6 +44,13 @@ exports.up = function(knex, Promise) {
   table.string('advice_one');
   table.string('advice_two');
   })
+  .createTable('intentions', function(table){
+  table.increments();
+  table.string('description');
+  table.string('start');
+  table.string('end');
+  table.integer('user_id');
+  })
 };
 exports.down = function(knex, Promise) {
   return knex.schema
@@ -51,4 +58,5 @@ exports.down = function(knex, Promise) {
   .dropTable('ancestry')
   .dropTable('snps')
   .dropTable('snp_info')
+  .dropTable('intentions')
 };

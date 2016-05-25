@@ -144,10 +144,18 @@ a {
   font-size: 14px;
   padding: 5px;
 }
-.box > h4 {
+.advice > h4 {
   font-family: 'Inconsolata', sans-serif;
   font-weight: 400;
   font-size: 14px;
+  width: 80%;
+  display: inline-block;
+  vertical-align: middle;
+}
+.advice > i {
+  margin-left: 5%;
+  vertical-align: middle;
+  color: #49A4FF;
 }
 .boxheader{
   display: table;
@@ -168,4 +176,7 @@ a {
 }
 .information {
   opacity: 0;
+}
+h6 {
+  display: none;
 }

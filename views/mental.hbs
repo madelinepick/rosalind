@@ -30,6 +30,7 @@
     <p class='tabheader'>
       {{basic_info.first_name}}
       {{basic_info.last_name}}
+      <h6 class='profile_id'>{{basic_info.profile_id}}</h6>
     </p>
     {{#each genotypes}}
     <div class="box">
@@ -40,8 +41,14 @@
       <p class='mental'>
         {{this.info.description}}
       </p>
-      <h4>{{this.info.advice_one}}</h4>
-      <h4>{{this.info.advice_two}}</h4>
+      <div class="advice">
+        <h4>{{this.info.advice_one}}</h4>
+        <i class="fa fa-plus-circle fa-2x"></i>
+      </div>
+      <div class="advice">
+        <h4>{{this.info.advice_two}}</h4>
+        <i class="fa fa-plus-circle fa-2x"></i>
+      </div>
     </div>
     {{/each}}
   </div>

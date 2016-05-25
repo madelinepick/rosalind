@@ -11,6 +11,12 @@ router.get('/logout', function(req,res,next){
   res.clearCookie('access_token');
   res.redirect('/');
 })
+router.post('/list/add', function(req,res,next){
+  knex('intentions').insert({description: req.body.intention, start: req.body.date, user_id:req.body.user_id})
+    .then(function(intention){
+      console.log('success');
+    })
+})
 router.get('/mental', function(req, res, next) {
   if (req.signedCookies.access_token) {
     var basic_info = {}, ancestry = {}, genotypes = {};
@@ -39,6 +45,7 @@ router.get('/mental', function(req, res, next) {
             genotypes.rs807701.value = snps[0].rs807701,
             genotypes.rs1800955.value = snps[0].rs1800955,
             genotypes.rs4307059.value = snps[0].rs4307059
+            basic_info.profile_id = snps[0].id;
             return knex('snp_info').then(function(snpInfo){
               console.log(snpInfo);
               genotypes.rs53576.info = snpInfo[1];
@@ -95,6 +102,7 @@ router.get('/physical', function(req, res, next) {
             genotypes.rs664143.value = snps[0].rs664143;
             genotypes.rs2802292.value = snps[0].rs2802292;
             genotypes.rs10830963.value = snps[0].rs10830963;
+            basic_info.profile_id = snps[0].id;
 
             return knex('snp_info').then(function(snpInfo){
               console.log(snpInfo[0]);
@@ -148,6 +156,7 @@ router.get('/ancestry', function(req, res, next) {
             ancestry.east_asian_native_american = ancestryData[0].east_asian_native_american;
             ancestry.south_asian = ancestryData[0].south_asian;
             ancestry.middle_eastern_north_african = ancestryData[0].middle_eastern_north_african;
+            basic_info.profile_id = snps[0].id;
               res.render('ancestry', {
                 basic_info: basic_info,
                 ancestry: ancestry
