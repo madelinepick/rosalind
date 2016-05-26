@@ -1,10 +1,10 @@
 <header>
-  <svg class='logo' width="481px" height="126px" viewBox="480 10 481 126" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <svg class='logo' width="481px" height="126px" viewBox="480 10 481 126" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">>
       <text id="Rosalind" stroke="none" fill="none" font-family="Inconsolata-Regular, Inconsolata" font-size="120" font-weight="normal">
-          <tspan x="480" y="113" fill="#FFC565">Ro</tspan>
-          <tspan x="600" y="113" fill="#D6F388">sa</tspan>
-          <tspan x="720" y="113" fill="#ABE9AC">li</tspan>
-          <tspan x="840" y="113" fill="#72D6E9">nd</tspan>
+          <tspan x="480" y="113" fill="#FFB438">Ro</tspan>
+          <tspan x="600" y="113" fill="#D2FC61">sa</tspan>
+          <tspan x="720" y="113" fill="#98F09A">li</tspan>
+          <tspan x="840" y="113" fill="#5AD1E8">nd</tspan>
       </text>
   </svg>
   <ul>
@@ -50,18 +50,31 @@
       {{/each}}
     </div>
     <div class="intentionchart">
-      <h2>Your Progress</h2>
+      <h2>Stages of Intentions</h2>
       <svg class="chart solid">
       </svg>
-      <div class="square create">
+      <div class="key">
+        <div class="square created">
+        </div>
+        <h4>Created</h4>
+        <div class="square started">
+        </div>
+        <h4>Started</h4>
+        <div class="square completed">
+        </div>
+        <h4>Completed</h4>
       </div>
-      <h4>Created</h4>
-      <div class="square start">
+      <h2 class='bump'>Percentage Progress</h2>
+      <div class="pie">
       </div>
-      <h4>Started</h4>
-      <div class="square complete">
+      <div class="key">
+        <div class="square Perstarted">
+        </div>
+        <h4>Started but not completed</h4><br>
+        <div class="square Percompleted">
+        </div>
+        <h4>Completed</h4>
       </div>
-      <h4>Completed</h4>
     </div>
   </div>
 </div>
@@ -88,11 +101,11 @@ data[0] = Number({{chartData.created}});
 data[1] = Number({{chartData.started}});
 data[2] = Number({{chartData.completed}});
 
-var width = 300,
+var width = 275,
     barHeight = 40;
 
 var color = d3.scale.ordinal()
-    .range(["#49A4FF", "#F65B77","#ABE9AC"]);
+    .range(["#49A4FF", "#F65B77","#98F09A"]);
 
 var x = d3.scale.linear()
     .domain([0, d3.max(data)])
@@ -118,5 +131,66 @@ bar.append("text")
     .attr("dy", ".35em")
     .text(function(d) { return (d); });
 
+// donut graph
+var started = Math.round((1-{{chartData.completed}}/{{chartData.created}})*100)/100;
+console.log(started);
+var completed = Math.round({{chartData.completed}}/{{chartData.created}}*100)/100;
+
+var data=[{"region":(started*100)+"%","Proportion":started},{"region":(completed*100)+"%","Proportion":completed}];
+
+var finalData = [];
+
+for (var i = 0; i < data.length; i++) {
+  if(data[i].Proportion > 0){
+    finalData.push(data[i])
+  }
+}
+
+var width = 300,
+    height = 300,
+    padding = 20,
+    radius = Math.min(width-padding, height-padding) / 2;
+
+var color = d3.scale.ordinal()
+    .range(["#5AD1E8", "#ffb438"]);
+
+var arc = d3.svg.arc()
+    .outerRadius(radius - 10)
+    .innerRadius(radius - 100);
+
+var pie = d3.layout.pie()
+    .sort(null)
+    .value(function (d) {
+    return d.Proportion;
+});
+
+var svg = d3.select(".pie").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    var g = svg.selectAll(".arc")
+        .data(pie(finalData))
+        .enter().append("g")
+        .attr("class", "arc");
+
+    g.append("path")
+        .attr("d", arc)
+        .style("fill", function (d) {
+        return color(d.data.region);
+    });
+
+    g.append("text")
+        .attr("class", "charttext")
+        .attr("transform", function (d) {
+        return "translate(" + arc.centroid(d) + ")";
+    })
+        .attr("dy", ".35em")
+        .style("text-anchor", "middle")
+        .style('font-size', "14px")
+        .text(function (d) {
+        return d.data.region;
+      });
 
 </script>

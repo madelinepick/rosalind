@@ -85,18 +85,19 @@ a {
 .tab {
   width: 90%;
   padding: 20px 1%;
-  border: 2px solid #FFC565;
+  border: 2px solid #ffb438;
   z-index: 10;
   background-color: white !important;
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 40px;
 }
 .tabnav {
   height: 48px;
   width: 150px;
-  border-top: 2px solid #FFC565;
-  border-right: 2px solid #FFC565;
-  border-left: 2px solid #FFC565;
+  border-top: 2px solid #ffb438;
+  border-right: 2px solid #ffb438;
+  border-left: 2px solid #ffb438;
   display: inline-block;
   margin-bottom: -2px;
   z-index: 1;
@@ -114,20 +115,20 @@ a {
   transition: background-color 500ms linear;
 }
 .ancestry{
-  border-color: #FFC565;
-  background-color: #FFC565;
+  border-color: #ffb438;
+  background-color: #ffb438;
 }
 .physical{
-  border-color: #D6F388;
-  background-color: #D6F388;
+  border-color: #d2fc61;
+  background-color: #d2fc61;
 }
 .mental {
-  border-color: #ABE9AC;
-  background-color: #ABE9AC;
+  border-color: #98f09a;
+  background-color: #98f09a;
 }
 .intentions{
-  border-color: #72D6E9;
-  background-color: #72D6E9;
+  border-color: #5ad1e8;
+  background-color: #5ad1e8;
 }
 .tabactive {
   background-color: white;
@@ -211,7 +212,7 @@ h6 {
   display: inline-block;
   color: #F65B77;
   vertical-align: middle;
-    color: #ABE9AC;
+    color: #98f09a;
 }
 .listitem> button {
   display: inline-block;
@@ -234,7 +235,7 @@ h6 {
   margin: 0px;
 }
 .checkedoff {
-  color: #ABE9AC !important;
+  color: #98f09a !important;
 }
 
 .overlay{
@@ -273,15 +274,26 @@ h6 {
   cursor: pointer;
 }
 .intentionchart {
-  flex: 0 0 30%;
+  flex: 0 0 28%;
+  overflow: auto;
+  padding-left: 2%;
+  width: 100%;
 }
-.intentionchart > h4 {
+.intentionchart > h2 {
+  font-weight: bolder;
+}
+.key {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+}
+.key > h4 {
   font-family: 'Inconsolata', sans-serif;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 300;
   display: inline-block;
   vertical-align: middle;
-  margin-right: 5px;
+  margin: 5px 5px;
 }
 .start {
   background-color: #49A4FF;
@@ -296,9 +308,10 @@ h6 {
   fill: #49A4FF;
 }*/
 .ancestrychart {
-  display:block;
-  margin-left: auto;
-  margin-right: auto;
+  flex: 0 0 70%;
+}
+.chart {
+  margin-bottom: 15px;
 }
 .chart text {
   fill: #333;
@@ -320,12 +333,23 @@ h6 {
   vertical-align: middle;
 }
 
-.create {
+.created {
   background-color: #49A4FF;
 }
-.start {
+.Perstarted {
+  background-color: #5ad1e8;
+  margin-left: 20px;
+}
+.started {
   background-color: #F65B77;
 }
-.complete {
-  background-color: #ABE9AC;
+.Percompleted {
+  background-color: #ffb438;
+  margin-left: 20px;
+}
+.completed {
+  background-color: #98f09a;
+}
+.bump {
+  margin-top: 30px;
 }
