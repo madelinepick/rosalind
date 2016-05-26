@@ -48,8 +48,11 @@ exports.up = function(knex, Promise) {
   table.increments();
   table.string('description');
   table.string('create');
+  table.string('createFormatted');
   table.string('start');
+  table.string('startFormatted');
   table.string('end');
+  table.string('endFormatted');
   table.integer('user_id');
   })
 };

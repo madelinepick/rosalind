@@ -4,7 +4,8 @@ $(function(){
     var data = {}
     data.user_id = $('.profile_id').text();
     data.intention = $(this).prev().text();
-    data.create = new Date();
+    data.create = Date.now();
+    data.createFormatted = moment().format('MMMM Do, h:mm a');
     $.ajax({
       type:"POST",
       cache:false,
@@ -20,7 +21,8 @@ $(function(){
   $('.start').on('click', function(e){
     e.preventDefault();
     var data = {}
-    data.start = new Date();
+    data.start = Date.now();
+    data.startFormatted = moment().format('MMMM Do, h:mm a');
     data.intention = $(this).prev('.intention').text();
     $.ajax({
       type:"POST",
@@ -37,7 +39,8 @@ $(function(){
   $('.complete').on('click', function(e){
     e.preventDefault();
     var data = {}
-    data.end = new Date();
+    data.end = Date.now();
+    data.endFormatted = moment().format('MMMM Do, h:mm a');
     data.intention = $(this).prev('.intention').text();
     $.ajax({
       type:"POST",

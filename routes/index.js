@@ -24,6 +24,7 @@ router.get('/intentions', function(req,res,next){
       } else {
         knex('users').where({email: basic_info.email})
           .join('intentions', 'users.id', 'intentions.user_id')
+          .orderBy('create', 'desc')
           .then(function(intentions){
             var intentions = intentions;
 
@@ -57,12 +58,13 @@ router.get('/intentions', function(req,res,next){
 
 })
 router.post('/list/add', function(req,res,next){
-  knex('intentions').insert({description: req.body.intention, create: req.body.create, user_id:req.body.user_id})
+  knex('intentions').insert({description: req.body.intention, create: req.body.create, user_id:req.body.user_id, createFormatted: req.body.createFormatted})
     .then(function(intention){
+      res.end('{"success" : "Updated Successfully", "status" : 200}');
     })
 })
 router.post('/list/start', function(req,res,next){
-  knex('intentions').where({description: req.body.intention}).update({start: req.body.start})
+  knex('intentions').where({description: req.body.intention}).update({start: req.body.start, startFormatted: req.body.startFormatted})
     .returning('*')
     .then(function(intention){
       res.end('{"success" : "Updated Successfully", "status" : 200}');
@@ -70,7 +72,7 @@ router.post('/list/start', function(req,res,next){
 })
 
 router.post('/list/complete', function(req,res,next){
-  knex('intentions').where({description: req.body.intention}).update({end: req.body.end})
+  knex('intentions').where({description: req.body.intention}).update({end: req.body.end, endFormatted: req.body.endFormatted})
     .returning('*')
     .then(function(intention){
       res.end('{"success" : "Updated Successfully", "status" : 200}');

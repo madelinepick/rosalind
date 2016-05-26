@@ -39,30 +39,46 @@
         {{else}}
         <button type="button" class='start'>Start</button>
         {{/if}}
-        <h5>Added: {{this.create}}</h5>
+        {{#if this.end}}
+        <h5>Completed: {{this.endFormatted}}</h5>
+        {{else if this.start}}
+        <h5>Started: {{this.startFormatted}}</h5>
+        {{else}}
+        <h5>Added: {{this.createFormatted}}</h5>
+        {{/if}}
       </div>
       {{/each}}
     </div>
     <div class="intentionchart">
       <h2>Your Progress</h2>
       <svg class="chart solid">
-
       </svg>
+      <div class="square create">
+      </div>
+      <h4>Created</h4>
+      <div class="square start">
+      </div>
+      <h4>Started</h4>
+      <div class="square complete">
+      </div>
+      <h4>Completed</h4>
     </div>
   </div>
 </div>
 
 <div class="overlay overlaystart">
   <div class="overlayInset">
-    <h2>Yay you started a thing! You're cool!</h2>
     <img class='close' src="https://api.icons8.com/download/6a145bf660d8bd09337d6169823882c8356a924c/iOS7/PNG/256/User_Interface/delete_sign-256.png" alt="" />
+    <h2>Yay you started a thing! You're cool!</h2>
+    <img class='reaction' src="https://media.giphy.com/media/4apcfHxnRfwjK/giphy.gif" alt="" />
   </div>
 </div>
 
 <div class="overlay overlaycomplete">
   <div class="overlayInset">
-    <h2>Yay you completed a thing! You're awesome!</h2>
     <img class='close' src="https://api.icons8.com/download/6a145bf660d8bd09337d6169823882c8356a924c/iOS7/PNG/256/User_Interface/delete_sign-256.png" alt="" />
+    <h2>Yay you completed a thing! You're awesome!</h2>
+    <img class='reaction' src="https://media.giphy.com/media/l3V0GJ5mMTRoVFrY4/giphy.gif" alt="" />
   </div>
 </div>
 
@@ -76,7 +92,7 @@ var width = 300,
     barHeight = 40;
 
 var color = d3.scale.ordinal()
-    .range(["#ABE9AC", "#FFC565", "#D6F388", "#72D6E9", "#49A4FF", "#F65B77"]);
+    .range(["#49A4FF", "#F65B77","#ABE9AC"]);
 
 var x = d3.scale.linear()
     .domain([0, d3.max(data)])
@@ -87,17 +103,20 @@ var chart = d3.select(".chart")
     .attr("height", barHeight * data.length);
 
 var bar = chart.selectAll("g")
-    .data(data)
+  .data(data)
   .enter().append("g")
-    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+  .attr("transform", function(d, i) { console.log(i);return "translate(0," + i * barHeight + ")"; });
 
 bar.append("rect")
     .attr("width", x)
-    .attr("height", barHeight - 1);
+    .attr("height", barHeight - 1)
+    .attr("fill",function(d,i){return color(i)});
 
 bar.append("text")
     .attr("x", function(d) { return x(d) - 3; })
     .attr("y", barHeight / 2)
     .attr("dy", ".35em")
     .text(function(d) { return (d); });
+
+
 </script>

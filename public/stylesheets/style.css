@@ -32,8 +32,6 @@ header > a > button {
   right: 70px;
   display: inline;
   height: 50px;
-}
-header > a {
   color: white;
   font-family: "Lato", sans-serif;
   text-transform: uppercase;
@@ -41,6 +39,15 @@ header > a {
   font-size: 18px;
   vertical-align: middle;
   font-weight: 300;
+  transition: all .2s ease-in-out;
+  cursor: pointer;
+}
+header > a > button:hover {
+  transform: scale(1.2);
+
+}
+header > a {
+
 }
 header > a > button > img {
   width: 20px;
@@ -157,6 +164,7 @@ a {
   vertical-align: middle;
   color: #49A4FF;
   transition: all .2s ease-in-out;
+  cursor: pointer;
 }
 .advice > i:hover {
   transform: scale(1.2);
@@ -178,15 +186,17 @@ a {
   display: inline;
   padding-right: 10px;
 }
-.information {
-  opacity: 0;
-}
 h6 {
   display: none;
 }
 .list {
   padding: 20px;
   flex: 0 0 60%;
+}
+.listitem {
+  border: 2px solid rgba(187, 187, 187, .2);
+  padding: 10px;
+  margin-bottom: 10px;
 }
 .listitem > p {
   font-family: 'Inconsolata', sans-serif;
@@ -195,6 +205,7 @@ h6 {
   width: 80%;
   display: inline-block;
   vertical-align: middle;
+  margin-top: 5px;
 }
 .listitem> i {
   display: inline-block;
@@ -211,6 +222,7 @@ h6 {
   padding: 10px;
   color: #333;
   text-transform: uppercase;
+  cursor: pointer;
   transition: all .2s ease-in-out;
 }
 .listitem> button:hover {
@@ -246,19 +258,30 @@ h6 {
   padding: 15px;
 }
 .overlayInset > h2 {
+  clear: both;
   font-family: 'Inconsolata', sans-serif;
   font-size: 18px;
   color: #49A4FF;
   width: 70%;
   display: inline-block;
+  line-height: normal;
 }
 .close {
   width: 30px;
   float: right;
   display: inline-block;
+  cursor: pointer;
 }
 .intentionchart {
   flex: 0 0 30%;
+}
+.intentionchart > h4 {
+  font-family: 'Inconsolata', sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
 }
 .start {
   background-color: #49A4FF;
@@ -269,15 +292,40 @@ h6 {
 .intention {
   padding-right: 10px;
 }
-rect {
+/*rect {
   fill: #49A4FF;
+}*/
+.ancestrychart {
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
 }
-
 .chart text {
-  fill: white;
-  font: 10px sans-serif;
+  fill: #333;
+  font-size: 12px;
+  font-family: "Lato", sans-serif;
   text-anchor: end;
 }
 .solid {
   border-left: 4px solid #333;
+}
+.reaction {
+  max-width: 300px;
+  margin-top: 20px;
+}
+.square {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.create {
+  background-color: #49A4FF;
+}
+.start {
+  background-color: #F65B77;
+}
+.complete {
+  background-color: #ABE9AC;
 }
