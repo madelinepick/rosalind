@@ -273,10 +273,7 @@ router.get('/', function(req, res, next) {
                         ancestry.east_asian_native_american = results.east_asian_native_american;
                         ancestry.south_asian = results.south_asian;
                         ancestry.middle_eastern_north_african = results.middle_eastern_north_african;
-                        res.render('ancestry', {
-                          ancestry: ancestry,
-                          basic_info: basic_info
-                          });
+                        res.redirect('/ancestry');
                       })
                 } else {
                   return knex('users').insert({email: basic_info.email, first_name: basic_info.first_name, last_name:basic_info.last_name})
@@ -318,11 +315,7 @@ router.get('/', function(req, res, next) {
                         .returning('*')
                         .then(function(ancestryData){
                           ancestry = ancestryData[0];
-                          res.render('ancestry', {
-                            ancestry: ancestry,
-                            basic_info: basic_info,
-                            genotypes: genotypes
-                          });
+                          res.redirect('/ancestry');
                         })
                       })
                     })
@@ -368,7 +361,7 @@ router.get('/receive_code/', function(req, res, next) {
           json: true }, function(e, r, body) {
               if (!e && r.statusCode == 200) {
                   res.cookie('access_token', body.access_token, {signed: true});
-                  res.redirect('/');
+                  res.redirect('/ancestry');
               } else {
                   res.send(body);
               }
