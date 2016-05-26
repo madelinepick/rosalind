@@ -9,7 +9,6 @@
   </svg>
   <ul>
     <li><a class='activenav' href="#">HOME</a></li>
-    <li><a href="#">SETTINGS</a></li>
     <li><a href="/logout">LOGOUT</a></li>
   </ul>
 </header>
@@ -28,6 +27,7 @@
     <a href="/intentions"><h2>Intentions</h2></a>
   </div>
   <div class="tab intentions">
+    <p class='message'>{{message}}</p>
     <div class="list">
       {{#each intentions}}
       <div class="listitem">
@@ -49,7 +49,7 @@
       </div>
       {{/each}}
     </div>
-    <div class="intentionchart">
+    <div class="intentionchart" style='display:{{display}}'>
       <h2>Stages of Intentions</h2>
       <svg class="chart solid">
       </svg>
@@ -70,7 +70,7 @@
       <div class="key">
         <div class="square Perstarted">
         </div>
-        <h4>Started but not completed</h4><br>
+        <h4>Created but not completed</h4><br>
         <div class="square Percompleted">
         </div>
         <h4>Completed</h4>
@@ -136,7 +136,7 @@ var started = Math.round((1-{{chartData.completed}}/{{chartData.created}})*100)/
 console.log(started);
 var completed = Math.round({{chartData.completed}}/{{chartData.created}}*100)/100;
 
-var data=[{"region":(started*100)+"%","Proportion":started},{"region":(completed*100)+"%","Proportion":completed}];
+var data=[{"region":(Math.round(started*100))+"%","Proportion":started},{"region":(Math.round(completed*100))+"%","Proportion":completed}];
 
 var finalData = [];
 
@@ -177,7 +177,7 @@ var svg = d3.select(".pie").append("svg")
 
     g.append("path")
         .attr("d", arc)
-        .style("fill", function (d) {
+        .attr("fill", function (d) {
         return color(d.data.region);
     });
 

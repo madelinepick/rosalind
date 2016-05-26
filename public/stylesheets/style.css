@@ -2,6 +2,7 @@ body {
   padding: 0px;
   margin: 0px;
   font-family: 'Lato', sans-serif;
+  color: #333;
 }
 h2 {
   font-family: 'Inconsolata', sans-serif;
@@ -145,6 +146,13 @@ a {
   -moz-box-shadow: 0px 0px 25px -2px rgba(0,0,0,0.3);
   box-shadow: 0px 0px 25px -2px rgba(0,0,0,0.3);
   padding: 1% 2%;
+}
+.box > a {
+  font-family: 'Inconsolata', sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  font-size: 12px;
+  color: #F65B77;
 }
 .box > p {
   font-family: 'Inconsolata', sans-serif;
@@ -308,7 +316,7 @@ h6 {
   fill: #49A4FF;
 }*/
 .ancestrychart {
-  flex: 0 0 70%;
+  flex: 0 0 50%;
 }
 .chart {
   margin-bottom: 15px;
@@ -352,4 +360,50 @@ h6 {
 }
 .bump {
   margin-top: 30px;
+}
+.message {
+  font-family: 'Inconsolata', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  margin-left: 20px;
+}
+.ancestryadvice {
+  flex: 0 0 50%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.ancestrybox{
+  flex: 0 0 40%;
+  padding: 5%;
+  margin: 20px 1%;
+  -webkit-box-shadow: 0px 0px 15px -2px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 15px -2px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 15px -2px rgba(0,0,0,0.3);
+  padding: 1% 2%;
+}
+.ancestrybox > p{
+  font-size: 14px;
+  font-family: 'Inconsolata', sans-serif;
+  font-weight: 400;
+}
+.ancestrybox > h4 {
+  font-size: 16px;
+  font-family: 'Inconsolata', sans-serif;
+  font-weight: 600;
+  margin: 10px 0px;
+}
+.ancestrybox > a > button {
+  padding: 5px 10px;
+  background-color:#F65B77;
+  border: none;
+  display: inline;
+  color: #333;
+  font-family: "Lato", sans-serif;
+  text-transform: uppercase;
+  display: inline-block;
+  font-size: 12px;
+  vertical-align: middle;
+  font-weight: 300;
+  transition: all .2s ease-in-out;
+  cursor: pointer;
 }

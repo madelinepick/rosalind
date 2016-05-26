@@ -9,7 +9,6 @@
   </svg>
   <ul>
     <li><a class='activenav' href="#">HOME</a></li>
-    <li><a href="#">SETTINGS</a></li>
     <li><a href="/logout">LOGOUT</a></li>
   </ul>
 </header>
@@ -35,7 +34,7 @@
     {{#each genotypes}}
     <div class="box">
       <div class="boxheader">
-        <i class="fa fa-camera-retro fa-2x"></i>
+        <i class="fa {{this.info.icon}} fa-2x"></i>
         <h3>{{@key}}: {{this.value}}</h3>
       </div>
       <p class='mental'>
@@ -49,6 +48,7 @@
         <h4>{{this.info.advice_two}}</h4>
         <i class="fa fa-plus-circle fa-2x"></i>
       </div>
+      <a href="{{this.info.link}}">Click here for related medical research</a>
     </div>
     {{/each}}
   </div>

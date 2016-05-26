@@ -10,7 +10,6 @@
 </svg>
   <ul>
     <li><a class='activenav' href="#">HOME</a></li>
-    <li><a href="#">SETTINGS</a></li>
     <li><a href="/logout">LOGOUT</a></li>
   </ul>
 </header>
@@ -31,7 +30,17 @@
   <div class="tab ancestry">
     <div class="ancestrychart">
     </div>
+    <div class="ancestryadvice">
+      {{#each ancestry_info}}
+      <div class="ancestrybox">
+        <h4>{{this.name}}</h4>
+        <p>Common diseases: {{this.disease}}</p>
+        <a href="{{this.link}}"><button type="button">More info</button></a>
+      </div>
+      {{/each}}
+    </div>
   </div>
+
 </div>
 
 <script type="text/javascript">

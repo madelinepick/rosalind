@@ -26,28 +26,37 @@ router.get('/intentions', function(req,res,next){
           .join('intentions', 'users.id', 'intentions.user_id')
           .orderBy('create', 'desc')
           .then(function(intentions){
+            console.log(intentions.length);
+            if(intentions.length == 0){
+              console.log('IN HERE');
+              res.render('intentions', {
+                message: 'You haven\'t added any intentions!',
+                display: 'none'
+              })
+            } else{
             var intentions = intentions;
 
-            Promise.all([
-              knex('intentions').where({user_id: intentions[0].user_id})
-              .count('create'),
-              knex('intentions').where({user_id: intentions[0].user_id})
-              .count('start'),
-              knex('intentions').where({user_id: intentions[0].user_id})
-              .count('end')
-            ])
-            .then(function(data){
-              chartData.created = data[0][0].count;
-              chartData.started = data[1][0].count;
-              chartData.completed = data[2][0].count;
-              res.render('intentions', {
-                intentions: intentions,
-                chartData: chartData
+              Promise.all([
+                knex('intentions').where({user_id: intentions[0].user_id})
+                .count('create'),
+                knex('intentions').where({user_id: intentions[0].user_id})
+                .count('start'),
+                knex('intentions').where({user_id: intentions[0].user_id})
+                .count('end')
+              ])
+              .then(function(data){
+                chartData.created = data[0][0].count;
+                chartData.started = data[1][0].count;
+                chartData.completed = data[2][0].count;
+                res.render('intentions', {
+                  intentions: intentions,
+                  chartData: chartData
+                })
               })
-            })
-            .catch(function(err){
-              next(err);
-            })
+              .catch(function(err){
+                next(err);
+              })
+            }
           })
         }
       })
@@ -112,6 +121,7 @@ router.get('/mental', function(req, res, next) {
               genotypes.rs807701.info = snpInfo[9];
               genotypes.rs1800955.info = snpInfo[12];
               genotypes.rs4307059.info = snpInfo[13];
+              console.log(genotypes);
               res.render('mental', {
                 basic_info: basic_info,
                 genotypes: genotypes
@@ -187,7 +197,7 @@ router.get('/physical', function(req, res, next) {
 });
 router.get('/ancestry', function(req, res, next) {
   if (req.signedCookies.access_token) {
-    var basic_info = {}, ancestry = {}, genotypes = {};
+    var basic_info = {}, ancestry = {}, ancestry_info = {};
     var base_uri = 'https://api.23andme.com/1';
     var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
     request.get({ url: base_uri + '/demo/user/?email=true', headers: headers, json: true }, function (e, r, body) {
@@ -208,10 +218,15 @@ router.get('/ancestry', function(req, res, next) {
             ancestry.south_asian = ancestryData[0].south_asian;
             ancestry.middle_eastern_north_african = ancestryData[0].middle_eastern_north_african;
             basic_info.profile_id = snps[0].id;
+
+            knex('ancestry_info').select('*').then(function(ancestryInfo){
+              ancestry_info= ancestryInfo;
               res.render('ancestry', {
                 basic_info: basic_info,
-                ancestry: ancestry
+                ancestry: ancestry,
+                ancestry_info: ancestry_info
               })
+            })
           })
         }
       })
