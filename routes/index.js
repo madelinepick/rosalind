@@ -259,7 +259,6 @@ router.get('/', function(req, res, next) {
           request.get({ url: base_uri + '/user/?email=true', headers: headers, json: true}, function (e, r, body) {
             basic_info.email = body.email;
             request.get({ url: base_uri + '/ancestry/'+basic_info.profile_id, headers: headers, json: true}, function (e, r, body) {
-              console.log('ancestry in /', body.ancestry.sub_populations)
               for (var i = 0; i < body.ancestry.sub_populations.length; i++) {
                 if(body.ancestry.sub_populations[i].label == 'European'){
                   ancestry.european = body.ancestry.sub_populations[i].proportion;
