@@ -24,7 +24,7 @@ header {
  z-index:100000;
 
 }
-header > a > button {
+header > a > button, .landingsection > a > button {
   padding: 10px 15px;
   background-color:#F65B77;
   border: none;
@@ -43,7 +43,10 @@ header > a > button {
   transition: all .2s ease-in-out;
   cursor: pointer;
 }
-header > a > button:hover {
+.landingsection > a > button {
+  position: inherit;
+}
+header > a > button:hover, .landingsection > a > button:hover {
   transform: scale(1.2);
 
 }
@@ -469,4 +472,43 @@ h6 {
   font-family: 'Inconsolata', sans-serif;
   font-weight: 400;
   vertical-align: middle;
+}
+.doublehelix {
+  fill: #333;
+  height: 350px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.landingsection {
+  padding: 30px 50px;
+  width: 100%;
+  border-bottom: 2px solid #BBBBBB;
+  padding-left: 20%;
+}
+.landingsection > h3 {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 25px;
+  font-family: 'Inconsolata', sans-serif;
+  font-weight: 400;
+  width: 40%;
+}
+.landingsection > p {
+  font-family: 'Inconsolata', sans-serif;
+  display: inline-block;
+  vertical-align:top;
+  width: 30%;
+}
+.nomarg {
+  padding-left: 0;
+  padding-right: 0;
+}
+.landingsection > img {
+  max-width: 400px;
+  max-height: 400px;
+  display: inline-block;
+  /*vertical-align: middle;*/
+  border: 1px solid #BBBBBB;
+  margin-left: 20px;
 }
