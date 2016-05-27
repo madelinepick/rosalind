@@ -3,7 +3,7 @@ var router = express.Router();
 var request = require('request');
 var cookieParser = require('cookie-parser');
 var knex = require('knex')(require('../knexfile')['production']);
-var snps = 'rs4307059%20rs1800497%20rs53576%20rs10830963%20rs7089424%20rs10484554%20rs2241880%20rs2802292%20rs13266634%20rs2180439%20rs1121980%20rs664143%20rs307377%20rs1815739%20rs807701%20rs17077540%20rs1800955%20rs987525';
+var snps = 'email%20rs4307059%20rs1800497%20rs53576%20rs10830963%20rs7089424%20rs10484554%20rs2241880%20rs2802292%20rs13266634%20rs2180439%20rs1121980%20rs664143%20rs307377%20rs1815739%20rs807701%20rs17077540%20rs1800955%20rs987525';
 
 
 /* GET home page. */
@@ -16,7 +16,7 @@ router.get('/intentions', function(req,res,next){
     var basic_info = {}, intentions={}, chartData = {};
     var base_uri = 'https://api.23andme.com/1';
     var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
-    request.get({ url: base_uri + '/demo/user/?email=true', headers: headers, json: true }, function (e, r, body) {
+    request.get({ url: base_uri + '/user/?email=true', headers: headers, json: true }, function (e, r, body) {
       basic_info.email = body.email;
       if(r.statusCode != 200) {
         res.clearCookie('access_token');
@@ -98,7 +98,7 @@ router.get('/mental', function(req, res, next) {
     genotypes.rs4307059 = {};
     var base_uri = 'https://api.23andme.com/1';
     var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
-    request.get({ url: base_uri + '/demo/user/?email=true', headers: headers, json: true }, function (e, r, body) {
+    request.get({ url: base_uri + '/user/?email=true', headers: headers, json: true }, function (e, r, body) {
       basic_info.email = body.email;
       if(r.statusCode != 200) {
         res.clearCookie('access_token');
@@ -150,7 +150,7 @@ router.get('/physical', function(req, res, next) {
     genotypes.rs10830963 = {};
     var base_uri = 'https://api.23andme.com/1';
     var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
-    request.get({ url: base_uri + '/demo/user/?email=true', headers: headers, json: true }, function (e, r, body) {
+    request.get({ url: base_uri + '/user/?email=true', headers: headers, json: true }, function (e, r, body) {
       basic_info.email = body.email;
       if(r.statusCode != 200) {
         res.clearCookie('access_token');
@@ -200,15 +200,18 @@ router.get('/ancestry', function(req, res, next) {
     var basic_info = {}, ancestry = {}, ancestry_info = {};
     var base_uri = 'https://api.23andme.com/1';
     var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
-    request.get({ url: base_uri + '/demo/user/?email=true', headers: headers, json: true }, function (e, r, body) {
+    request.get({ url: base_uri + '/user/?email=true', headers: headers, json: true }, function (e, r, body) {
+      console.log(body);
       basic_info.email = body.email;
       if(r.statusCode != 200) {
         res.clearCookie('access_token');
         res.redirect('/');
       } else {
+        console.log(basic_info);
         knex('users').where({email: basic_info.email})
           .join('ancestry', 'users.id', 'ancestry.user_id')
           .then(function(ancestryData){
+            console.log('ancestrydata', ancestryData);
             basic_info.first_name = ancestryData[0].first_name;
             basic_info.last_name = ancestryData[0].last_name;
             ancestry.sub_saharan_african = ancestryData[0].sub_saharan_african;
@@ -228,6 +231,9 @@ router.get('/ancestry', function(req, res, next) {
               })
             })
           })
+          .catch(function(err){
+            next(err);
+          })
         }
       })
     }
@@ -242,7 +248,7 @@ router.get('/', function(req, res, next) {
     var basic_info = {}, ancestry = {}, genotypes;
     var base_uri = 'https://api.23andme.com/1';
     var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
-    request.get({ url: base_uri + '/demo/names/', headers: headers, json: true }, function (e, r, body) {
+    request.get({ url: base_uri + '/names/', headers: headers, json: true }, function (e, r, body) {
       if(r.statusCode != 200) {
         res.clearCookie('access_token');
         res.redirect('/');
@@ -250,16 +256,26 @@ router.get('/', function(req, res, next) {
           basic_info.first_name = body.first_name;
           basic_info.last_name = body.last_name;
           basic_info.profile_id = body.profiles[0].id;
-          request.get({ url: base_uri + '/demo/user/?email=true', headers: headers, json: true}, function (e, r, body) {
+          request.get({ url: base_uri + '/user/?email=true', headers: headers, json: true}, function (e, r, body) {
             basic_info.email = body.email;
-            request.get({ url: base_uri + '/demo/ancestry/'+basic_info.profile_id, headers: headers, json: true}, function (e, r, body) {
-              ancestry.sub_saharan_african = body.ancestry.sub_populations[0].proportion;
-              ancestry.european = body.ancestry.sub_populations[1].proportion;
-              ancestry.oceanian = body.ancestry.sub_populations[2].proportion;
-              ancestry.east_asian_native_american = body.ancestry.sub_populations[3].proportion;
-              ancestry.south_asian = body.ancestry.sub_populations[4].proportion;
-              ancestry.middle_eastern_north_african = body.ancestry.sub_populations[5].proportion;
-              request.get({ url: base_uri + '/demo/genotypes/'+basic_info.profile_id+'/?locations='+snps+'&format=true', headers:  headers, json:true}, function (e, r, body) {
+            request.get({ url: base_uri + '/ancestry/'+basic_info.profile_id, headers: headers, json: true}, function (e, r, body) {
+              console.log('ancestry in /', body.ancestry.sub_populations)
+              for (var i = 0; i < body.ancestry.sub_populations.length; i++) {
+                if(body.ancestry.sub_populations[i].label == 'European'){
+                  ancestry.european = body.ancestry.sub_populations[i].proportion;
+                } else if (body.ancestry.sub_populations[i].label == 'East Asian & Native American') {
+                  ancestry.east_asian_native_american = body.ancestry.sub_populations[i].proportion;
+                } else if (body.ancestry.sub_populations[i].label == 'Sub-Saharan African') {
+                  ancestry.sub_saharan_african = body.ancestry.sub_populations[i].proportion;
+                } else if (body.ancestry.sub_populations[i].label == 'Oceanian') {
+                  ancestry.oceanian = body.ancestry.sub_populations[i].proportion;
+                } else if (body.ancestry.sub_populations[i].label == 'South Asian') {
+                  ancestry.south_asian = body.ancestry.sub_populations[4].proportion;
+                } else if (body.ancestry.sub_populations[i].label == 'Middle Eastern & North African') {
+                  ancestry.middle_eastern_north_african = body.ancestry.sub_populations[i].proportion;
+                }
+              }
+              request.get({ url: base_uri + '/genotypes/'+basic_info.profile_id+'/?locations='+snps+'&format=true', headers:  headers, json:true}, function (e, r, body) {
               genotypes = body;
               return knex('users').where({email:basic_info.email}).then(function(user){
                 if(user.length > 0){
@@ -361,7 +377,7 @@ router.get('/receive_code/', function(req, res, next) {
           json: true }, function(e, r, body) {
               if (!e && r.statusCode == 200) {
                   res.cookie('access_token', body.access_token, {signed: true});
-                  res.redirect('/ancestry');
+                  res.redirect('/');
               } else {
                   res.send(body);
               }

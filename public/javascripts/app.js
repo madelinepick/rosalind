@@ -3,7 +3,7 @@ $(function(){
     e.preventDefault();
     var data = {}
     data.user_id = $('.profile_id').text();
-    data.intention = $(this).prev().text();
+    data.intention = $(this).prevAll('.advicetext').text();
     data.create = Date.now();
     data.createFormatted = moment().format('MMMM Do, h:mm a');
     $.ajax({
@@ -61,5 +61,12 @@ $(function(){
 
   $('.close').on('click', function(e){
     location.reload();
+  })
+
+  $('.ancestrypath').on('mouseover', function(){
+    $(this).next().show()
+  })
+  $('.ancestrypath').on('mouseleave', function(){
+    $(this).next().hide()
   })
 })

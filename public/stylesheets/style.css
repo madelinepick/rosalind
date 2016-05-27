@@ -319,7 +319,14 @@ h6 {
   fill: #49A4FF;
 }*/
 .ancestrychart {
-  flex: 0 0 50%;
+  flex: 0 0 60%;
+}
+.ancestrychart > p {
+  text-align: center;
+  font-family: 'Inconsolata', sans-serif;
+  font-size: 14px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 .chart {
   margin-bottom: 15px;
@@ -371,7 +378,7 @@ h6 {
   margin-left: 20px;
 }
 .ancestryadvice {
-  flex: 0 0 50%;
+  flex: 0 0 40%;
   display: flex;
   flex-wrap: wrap;
 }
