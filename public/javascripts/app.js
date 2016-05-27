@@ -13,6 +13,11 @@ $(function(){
       data:data,
       success: function (html) {
         console.log('successful post');
+        console.log(e);
+        $(e.target).prev('.addthis').fadeIn(500).css({'display':'inline-block'});
+        setTimeout(function(){
+        $(e.target).prev('.addthis').fadeOut(500);
+        }, 2000);
       }
     });
     return false;
